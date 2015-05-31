@@ -26,6 +26,18 @@ class aiml(object):
         :param msg:string, required
         :return: return the chat bot response to the given msg
         """
-        raise NotImplementedError
+        topic = self.find_topic(msg);
+        if not (topic is None):
+            self.current_topic = topic
+        else:
+            self.current_topic = self.default_topic
+
+        for category in self.current_topic.categories:
+            if category.pattern.is_match(msg):
+                return category.answer_template.get();
+
+
+
+
 
 

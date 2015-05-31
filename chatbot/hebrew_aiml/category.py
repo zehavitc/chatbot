@@ -8,6 +8,9 @@ class category(object):
         :return: None
         """
         self.topic = topic
-        self.pattern = None
-        self.answer_template = None
+        self.pattern = pattern
+        self.answer_template = answer_template
+
+
+
 

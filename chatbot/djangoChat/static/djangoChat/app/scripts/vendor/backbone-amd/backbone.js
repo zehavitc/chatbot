@@ -1268,7 +1268,7 @@
       }
     },
 
-    // Convert a route string into a regular expression, suitable for matching
+    // convert a route string into a regular expression, suitable for matching
     // against the current location hash.
     _routeToRegExp: function(route) {
       route = route.replace(escapeRegExp, '\\$&')

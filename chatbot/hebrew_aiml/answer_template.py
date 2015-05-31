@@ -1,4 +1,6 @@
 import exceptions
+
+
 class answer_template(object):
     def __init__(self, is_random, li):
         """
@@ -11,10 +13,10 @@ class answer_template(object):
         self.li = None
 
 
-
-    def get(self):
+    def get(self, params=None):
         """
         gets the answer from the answer template
+        :param params: optional parameters to get respond that fits the original message
         :return:
         returns the first template if is_random is false, otherwise returns random template
         """

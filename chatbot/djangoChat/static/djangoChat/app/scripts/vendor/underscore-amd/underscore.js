@@ -759,7 +759,7 @@
     return values;
   };
 
-  // Convert an object into a list of `[key, value]` pairs.
+  // convert an object into a list of `[key, value]` pairs.
   _.pairs = function(obj) {
     var pairs = [];
     for (var key in obj) if (_.has(obj, key)) pairs.push([key, obj[key]]);
