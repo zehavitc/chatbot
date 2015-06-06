@@ -9,4 +9,4 @@ class pattern(object):
         :param msg: string, required
         :return: true\ false
         """
-        raise NotImplementedError
+        return True

@@ -1,5 +1,3 @@
-import  exceptions
-
 class topic(object):
     def __init__(self,aiml, id):
         """
@@ -8,6 +6,6 @@ class topic(object):
         :param id: int (unique)
         :return:None
         """
-        self.categories = None
-        self.id - id
+        self.categories = []
+        self.id = id
 

@@ -1,5 +1,5 @@
 import exceptions
-
+from google_ngram_downloader import readline_google_store
 
 class answer_template(object):
     def __init__(self, is_random, li):
@@ -20,4 +20,6 @@ class answer_template(object):
         :return:
         returns the first template if is_random is false, otherwise returns random template
         """
-        raise NotImplementedError
+        msg = params[0]
+        words = msg.split()
+

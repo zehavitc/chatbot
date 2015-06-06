@@ -30,18 +30,26 @@ def login(request):
     context = {'error': ''}
 
     if request.method == 'POST':
-        username = request.POST.get('username', '')  # retunr '' if no username
+        username = request.POST.get('username', '')  # return '' if no username
         password = request.POST.get('password', '')
 
         user = auth.authenticate(username=username, password=password)
-
+        if user is None:
+            if username is None or password is None:
+                context['error'] = ' You must specify username and password'
+                return render(request, 'djangoChat/login.html', context)
+            if User.objects.filter(username=username).count() != 0:
+                context['error'] = ' Username already exists. please choose another one'
+                return render(request, 'djangoChat/login.html', context)
+            User.objects.create_user(username=username,password=password)
+            user = auth.authenticate(username=username, password=password)
         if user is not None:
             auth.login(request, user)
             cu = request.user.profile
             cu.is_chat_user = True
             cu.last_accessed = utcnow()
             cu.save()
-
+            clear_messages()
             return HttpResponseRedirect(reverse('index'))
         else:
             context['error'] = ' wrong credentials try again'
@@ -51,10 +59,19 @@ def login(request):
     return render(request, 'djangoChat/login.html', context)
 
 
+def clear_messages():
+    msgs = Message.objects.iterator()
+    for m in msgs:
+        m.delete()
+
+
 def logout(request):
     cu = request.user.profile
     cu.is_chat_user = False
     cu.save()
+    u = ChatUser.objects.filter(is_chat_user=True)
+    if len(u) == 0:
+        clear_messages()
     return HttpResponse('succesfully logged out of chat')
 
 
@@ -115,7 +132,6 @@ def logged_chat_users(request):
 def update_time(request):
     if request.user.username:
         u = request.user.profile
-
         u.last_accessed = utcnow()
         u.is_chat_user = True
         u.save()

@@ -1,4 +1,4 @@
-class category(object):
+class response(object):
     def __init__(self, topic, pattern, answer_template):
         """
         Initiate category object.
