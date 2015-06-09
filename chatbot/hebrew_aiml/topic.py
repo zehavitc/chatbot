@@ -6,6 +6,6 @@ class topic(object):
         :param id: int (unique)
         :return:None
         """
-        self.categories = []
+        self.message_handlers = []
         self.id = id
 

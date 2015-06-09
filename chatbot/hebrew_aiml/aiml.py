@@ -18,7 +18,7 @@ class aiml(object):
         :param msg:string, required
         :return: no return value. the function updates the current_topic field.
         """
-        raise NotImplementedError
+        return self.default_topic
 
     def respond(self,msg):
         """
@@ -32,9 +32,9 @@ class aiml(object):
         else:
             self.current_topic = self.default_topic
 
-        for category in self.current_topic.categories:
-            if category.pattern.is_match(msg):
-                return category.answer_template.get();
+        for msg_handler in self.current_topic.message_handlers:
+            if msg_handler.pattern.is_match(msg):
+                return msg_handler.answer_template.get(msg)
 
 
 
