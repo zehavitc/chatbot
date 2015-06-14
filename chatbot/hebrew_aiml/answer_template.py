@@ -1,5 +1,6 @@
 import exceptions
 from google_ngram_downloader import readline_google_store
+import random
 
 class answer_template(object):
     def __init__(self, is_random, li):
@@ -10,7 +11,7 @@ class answer_template(object):
         :return:None
         """
         self.is_random = is_random
-        self.li = None
+        self.li = li
 
 
     def get(self, params=None):
@@ -20,6 +21,7 @@ class answer_template(object):
         :return:
         returns the first template if is_random is false, otherwise returns random template
         """
-        msg = params[0]
-        words = msg.split()
+        if self.is_random:
+            return random.choice(self.li)
+        return self.li[0]
 

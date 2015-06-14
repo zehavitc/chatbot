@@ -14,17 +14,22 @@ class pattern(object):
         self.templates = templates
         if not use_synonyms:
             return
+        res = []
         words_api = words_db_api.words_db_api()
         for template in templates:
-            sub_templates = (''.join(w.strip()) for w in template.split(u'*'))
+            print(template.split(u'*'))
+            sub_templates = [w.strip() for w in template.split(u'*')]
             for sub_template in sub_templates:
+                print(sub_template)
                 for i in list(reversed(range(1, 3))):
-                    grams = ngrams(template, i)
+                    grams = ngrams(sub_template, i)
                     for ngram in grams:
+                        # print(ngram)
                         trans = words_api.get_translation(ngram)
                         for translation in trans:
                             if len(translation.split()) <= 2 and translation != "":
-                                self.templates += template.replace(ngram, translation)
+                                res += sub_template.replace(ngram, translation)
+        self.templates += res
 
 
     def is_match(self, msg):
@@ -34,12 +39,12 @@ class pattern(object):
         :return: true\ false
         """
         for template in self.templates:
-            if re.match(template, msg):
+            if re.match(template, msg.encode('utf-8')):
                 return True
         return False
 
 
 # h = u'מבחן'
 # print(h)
-p = pattern([u'מה המצב אחי'])
-print(p.is_match(u'איך המצב אחי'))
+# p = pattern([u'מה המצב אחי'])
+# print(p.is_match(u'איך המצב אחי'))

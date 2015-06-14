@@ -1,4 +1,5 @@
-import  exceptions
+import exceptions
+import wikipedia
 
 class aiml(object):
     def __init__(self, default_topic, topics):
@@ -35,6 +36,14 @@ class aiml(object):
         for msg_handler in self.current_topic.message_handlers:
             if msg_handler.pattern.is_match(msg):
                 return msg_handler.answer_template.get(msg)
+        word = msg.split()
+        wikipedia.set_lang('He')
+        value = wikipedia.search(word)
+        if len(value) != 0:
+            catagories = wikipedia.WikipediaPage(value[0]).categories
+            if len(catagories) != 0:
+                return catagories[0]
+            return wikipedia.summary(value)
 
 
 
