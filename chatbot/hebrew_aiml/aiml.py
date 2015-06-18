@@ -1,5 +1,10 @@
+# -*- coding: utf-8 -*-
 import exceptions
 import wikipedia
+import random
+from .answer_template_wiki import answer_template_wiki
+from .wiki_helper import *
+
 
 class aiml(object):
     def __init__(self, default_topic, topics):
@@ -12,6 +17,7 @@ class aiml(object):
         self.current_topic = default_topic
         self.default_topic = default_topic
         self.topics = topics
+        self.avoiding_msg = answer_template_wiki(True,["אני לא רוצה לדבר על *", "אני מעדיף שלא לדבר על *", "* זה ממש משעמם בוא נדבר על משהו אחר", "* זה לחנונים, אין לך משהו יותר טוב לדבר עליו?", "עזוב אותי מ*, מה חדש?", " לא כל כך מעניין אותי לדבר על *"])
 
     def find_topic(self,msg):
         """
@@ -36,14 +42,9 @@ class aiml(object):
         for msg_handler in self.current_topic.message_handlers:
             if msg_handler.pattern.is_match(msg):
                 return msg_handler.answer_template.get(msg)
-        word = msg.split()
-        wikipedia.set_lang('He')
-        value = wikipedia.search(word)
-        if len(value) != 0:
-            catagories = wikipedia.WikipediaPage(value[0]).categories
-            if len(catagories) != 0:
-                return catagories[0]
-            return wikipedia.summary(value)
+        return self.avoiding_msg.get([msg,get_category])
+
+
 
 
 

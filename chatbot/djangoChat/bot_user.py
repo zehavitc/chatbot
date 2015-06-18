@@ -7,10 +7,10 @@ from hebrew_aiml.topic import topic
 from hebrew_aiml.pattern import pattern
 from hebrew_aiml.answer_template import answer_template
 from hebrew_aiml.message_handler import message_handler
+from hebrew_aiml.answer_template_wiki import answer_template_wiki
 from hebrew_aiml.aiml import aiml
 
 import time
-
 
 class bot(object):
     def __init__(self):
@@ -21,6 +21,7 @@ class bot(object):
 
     def get_response(self, msg):
         return self.aiml.respond(msg)
+
 
 
 
