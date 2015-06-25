@@ -4,6 +4,7 @@
       <w>aiml</w>
       <w>gravatar</w>
       <w>ngram</w>
+      <w>ngrams</w>
     </words>
   </dictionary>
 </component>

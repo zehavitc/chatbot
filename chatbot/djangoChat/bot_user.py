@@ -20,7 +20,8 @@ class bot(object):
         self.aiml = aiml(default_topic,[])
 
     def get_response(self, msg):
-        return self.aiml.respond(msg)
+        r = self.aiml.respond(msg)
+        return r
 
 
 
