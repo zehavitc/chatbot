@@ -1,5 +1,4 @@
 import exceptions
-from google_ngram_downloader import readline_google_store
 import random
 
 class answer_template(object):

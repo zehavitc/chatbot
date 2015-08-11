@@ -17,19 +17,23 @@ def get_category(word):
 
 
 def get_catageories_helper(title):
-    catagories = wikipedia.WikipediaPage(title).categories
-    if len(catagories) != 0:
-        catagories = filter(lambda a: a != u'ערכים בלי תמונה', catagories)
-        # lens = []
-        # for category in catagories:
-        # res = wikipedia.page(category)
-        # lens = [len(res.links)]
-        # max_len = max(lens)
-        # idx = [i for i, x in enumerate(lens) if x == max(max_len)]
-        # max_category = catagories[random.choice(idx)]
+    try:
+        catagories = wikipedia.WikipediaPage(title).categories
         if len(catagories) != 0:
-            return random.choice(catagories).replace(u'קטגוריה', u'').replace(u':', u'')
-    return "זה"
+            catagories = filter(lambda a:  u'קצרמר' not in a and u'ערכים' not in a, catagories)
+            # lens = []
+            # for category in catagories:
+            # res = wikipedia.page(category)
+            # lens = [len(res.links)]
+            # max_len = max(lens)
+            # idx = [i for i, x in enumerate(lens) if x == max(max_len)]
+            # max_category = catagories[random.choice(idx)]
+            if len(catagories) != 0:
+                return random.choice(catagories).replace(u'קטגוריה', u'').replace(u':', u'')
+        return "זה"
+    except:
+        return title
+
 
 
 def get_info_box_data(word):
@@ -72,5 +76,5 @@ def get_title(element):
 #print(get_category(word))
 #get_category(word)
 # get_info_box_data('בראד פיט')
-get_info_box_data('אלברט איינשטיין')
+#get_info_box_data('אלברט איינשטיין')
 
