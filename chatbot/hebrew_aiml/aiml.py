@@ -2,8 +2,10 @@
 import exceptions
 import wikipedia
 import random
+import os
 from .answer_template_wiki import answer_template_wiki
 from .wiki_helper import *
+import codecs
 
 
 class aiml(object):
@@ -17,7 +19,16 @@ class aiml(object):
         self.current_topic = default_topic
         self.default_topic = default_topic
         self.topics = topics
-        self.avoiding_msg = answer_template_wiki(True,["אני לא רוצה לדבר על *", "אני מעדיף שלא לדבר על *", "* זה ממש משעמם בוא נדבר על משהו אחר", "* זה לחנונים, אין לך משהו יותר טוב לדבר עליו?", "עזוב אותי מ*, מה חדש?", " לא כל כך מעניין אותי לדבר על *"])
+        self.avoiding_msg = self.get_avoiding_message()
+
+    def get_avoiding_message(self):
+        try:
+            path = os.path.join(os.path.dirname(os.path.realpath(__file__)),"Templates","avoiding_templates")
+            f = codecs.open(path,'r',encoding='utf8')
+            templates = f.readlines()
+            return answer_template_wiki(True,templates)
+        except Exception as inst:
+            print(inst)
 
     def find_topic(self,msg):
         """
@@ -33,7 +44,7 @@ class aiml(object):
         :param msg:string, required
         :return: return the chat bot response to the given msg
         """
-        topic = self.find_topic(msg);
+        topic = self.find_topic(msg)
         if not (topic is None):
             self.current_topic = topic
         else:

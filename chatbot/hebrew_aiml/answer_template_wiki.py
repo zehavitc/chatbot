@@ -27,17 +27,22 @@ class answer_template_wiki(answer_template):
         if len(params) > 1:
             func = params[1]
             topic = func(topic)
-        r = answer.replace(u'*'.encode('utf-8'), topic.encode('utf-8'))
+        try:
+            #r = answer.replace(u'*'.encode('utf-8'), topic.encode('utf-8'))
+            r = answer.replace(u'*', topic)
+        except Exception as e:
+            print(e)
         return r
 
 
+
     def get_topic_wiki(self, msg):
-        msg_ngrams = ngrams(msg, 2)
-        msg_ngrams += msg.split()
+        msg_ngrams = ngrams(msg, 2) + ngrams(msg,1)
+        # msg_ngrams += msg.split()
         lens = []
         wikipedia.set_lang('He')
         for gram in msg_ngrams:
-            value = wikipedia.search(gram, 10, True)
+            value = wikipedia.search(gram, 1, False)
             if len(value) == 0:
                 lens.append(0)
             else:

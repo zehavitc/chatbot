@@ -10,17 +10,26 @@ def get_category(word):
     wikipedia.set_lang('He')
     res = wikipedia.search(word, 10, True)
     if len(res[0]) != 0:
-        return get_catageories_helper(res[0][0])
+        title = res[0][0]
+        if is_category(title) is None:
+            return random.choice(res[0])
+        return get_catageories_helper(title)
     else:
-        if res[1] != None:
+        if res[1] is not None:
             return get_catageories_helper(res[1][0])
 
+def is_category(title):
+    try:
+        page = wikipedia.WikipediaPage(title)
+        return page
+    except:
+        return None
 
 def get_catageories_helper(title):
     try:
         catagories = wikipedia.WikipediaPage(title).categories
         if len(catagories) != 0:
-            catagories = filter(lambda a:  u'קצרמר' not in a and u'ערכים' not in a, catagories)
+            catagories = filter(lambda a:  u'קצרמר' not in a and u'ערכים' not in a and u'דפים עם' not in a, catagories)
             # lens = []
             # for category in catagories:
             # res = wikipedia.page(category)
