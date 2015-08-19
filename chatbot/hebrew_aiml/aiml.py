@@ -3,9 +3,6 @@ import exceptions
 import wikipedia
 import random
 import os
-from .answer_template_wiki import answer_template_wiki
-from .wiki_helper import *
-import codecs
 
 
 class aiml(object):
@@ -19,16 +16,7 @@ class aiml(object):
         self.current_topic = default_topic
         self.default_topic = default_topic
         self.topics = topics
-        self.avoiding_msg = self.get_avoiding_message()
 
-    def get_avoiding_message(self):
-        try:
-            path = os.path.join(os.path.dirname(os.path.realpath(__file__)),"Templates","avoiding_templates")
-            f = codecs.open(path,'r',encoding='utf8')
-            templates = f.readlines()
-            return answer_template_wiki(True,templates)
-        except Exception as inst:
-            print(inst)
 
     def find_topic(self,msg):
         """
@@ -53,7 +41,7 @@ class aiml(object):
         for msg_handler in self.current_topic.message_handlers:
             if msg_handler.pattern.is_match(msg):
                 return msg_handler.answer_template.get(msg)
-        return self.avoiding_msg.get([msg,get_category])
+        return self.current_topic.get_avoiding_message(msg)
 
 
 

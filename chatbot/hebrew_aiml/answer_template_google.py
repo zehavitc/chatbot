@@ -22,17 +22,6 @@ class answer_template_google(answer_template):
         returns the first template if is_random is false, otherwise returns random template
         """
         msg = params[0]
-        # gs = GoogleSearch(msg)
-        # gs.results_per_page = 50
-        # try:
-        #     res = gs.get_results()
-        #     print(res[0].title.encode('utf-8'))
-        #     print(res[0].desc.encode('utf-8'))
-        # except Exception as e:
-        #     print(e)
-        # return
-        # try:
-        #   s="אלי טביב"
         try:
             b = Browser()
             gs = GoogleSearch(msg)
@@ -57,7 +46,7 @@ class answer_template_google(answer_template):
                 print
         except SearchError, e:
             print "Search failed: %s" % e
-        # g = google.doGoogleSearch("Kelly slater",0,10,1,"",0,"en","","")
+
 
 
 

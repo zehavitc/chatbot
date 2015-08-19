@@ -39,9 +39,14 @@ class pattern(object):
         :return: true\ false
         """
         for template in self.templates:
-            if re.match(template, msg.encode('utf-8')):
-                return True
-        return False
+            try:
+                if re.match(template, msg):
+                    return True
+            except Exception as e:
+                print(e)
+                return False
+
+
 
 
 # h = u'מבחן'
