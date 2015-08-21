@@ -85,10 +85,13 @@ def chat_api(request):
         m = Message(user=user, message=msg, gravatar=gravatar)
         m.save()
 
-        botUser = bot()
-        bot_response = botUser.get_response(m.message)
-        mbot = Message(user=botUser.name, message=bot_response, gravatar=gravatar)
-        mbot.save()
+        try:
+            botUser = bot()
+            bot_response = botUser.get_response(m.message)
+            mbot = Message(user=botUser.name, message=bot_response, gravatar=gravatar)
+            mbot.save()
+        except Exception as e:
+            print(e)
         res = {'id': m.id, 'msg': m.message, 'user': m.user, 'time': m.time.strftime('%I:%M:%S %p').lstrip('0'),
                'gravatar': m.gravatar}
         data = json.dumps(res)

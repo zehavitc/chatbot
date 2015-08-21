@@ -3,20 +3,22 @@ import exceptions
 import wikipedia
 import random
 import os
+from topic_classifier.topic_classifier import classifier
+
 
 
 class aiml(object):
-    def __init__(self, default_topic, topics):
+    def __init__(self, basic_topic, topics):
         """
         initiate the hebrew_aiml object
-        :param default_topic: default topic to answer by.
+        :param basic_topic: topic to match first
         :param topics: list of known topics the chat bot can use to answer the user
         :return: None
         """
-        self.current_topic = default_topic
-        self.default_topic = default_topic
+        self.current_topic = topics[0]
+        self.basic_topic = basic_topic
         self.topics = topics
-
+        self.classifier = classifier()
 
     def find_topic(self,msg):
         """
@@ -24,7 +26,11 @@ class aiml(object):
         :param msg:string, required
         :return: no return value. the function updates the current_topic field.
         """
-        return self.default_topic
+        topic_id = self.classifier.classify(msg)
+        for topic in self.topics:
+            if topic_id == topic.id:
+                return topic
+        raise Exception("aiml - classifier topic does not match given topics")
 
     def respond(self,msg):
         """
@@ -32,11 +38,18 @@ class aiml(object):
         :param msg:string, required
         :return: return the chat bot response to the given msg
         """
+
+
+        #basic topic
+        for msg_handler in self.basic_topic.message_handlers:
+            if msg_handler.pattern.is_match(msg):
+                return msg_handler.answer_template.get(msg)
+        #get topic and response
         topic = self.find_topic(msg)
         if not (topic is None):
             self.current_topic = topic
         else:
-            self.current_topic = self.default_topic
+            raise Exception("find topic - None value is not expected")
 
         for msg_handler in self.current_topic.message_handlers:
             if msg_handler.pattern.is_match(msg):

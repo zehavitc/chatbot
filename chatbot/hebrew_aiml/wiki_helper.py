@@ -85,5 +85,7 @@ def get_title(element):
 #print(get_category(word))
 #get_category(word)
 # get_info_box_data('בראד פיט')
-#get_info_box_data('אלברט איינשטיין')
+# res=wikipedia.suggest('ביבי')
+# print(res)
+# get_info_box_data('אלברט איינשטיין')
 
