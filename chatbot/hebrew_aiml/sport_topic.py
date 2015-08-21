@@ -15,7 +15,7 @@ class sport_topic(topic):
     def __init__(self):
         super(sport_topic, self).__init__(classifier.sport_topic)
         super(sport_topic, self).init_from_xml(classifier.sport_topic + ".xml")
-        self.avoiding_msg = avoiding_msg_ynet()
+        self.avoiding_msg = avoiding_msg_ynet(None,None)
 
     def get_avoiding_message(self, msg):
         self.avoiding_msg.get([msg])

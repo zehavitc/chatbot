@@ -10,10 +10,11 @@ for site in site.getsitepackages():
         sys.path.append(p)
 from xgoogle.search import GoogleSearch, SearchError
 from xgoogle.browser import *
+import wikipedia
 # from browser import Browser, BrowserError
 
 # from pygoogle import google
-class avoiding_msg_ynet(answer_template):
+class avoiding_msg_movies(answer_template):
     def get(self, params=None):
         """
         gets the answer from the answer template
@@ -21,7 +22,7 @@ class avoiding_msg_ynet(answer_template):
         :return:
         returns the first template if is_random is false, otherwise returns random template
         """
-        msg = params[0]
+        msg = params[0] + u"סרט ויקיפדיה"
         try:
             b = Browser()
             gs = GoogleSearch(msg)
@@ -35,15 +36,14 @@ class avoiding_msg_ynet(answer_template):
                         soup = BeautifulSoup(page)
                         title = soup.find("title")
                         if (title is not None):
-                            res = title.text.split('-')[0].replace('ynet','').replace('&quot;','')
-                            if ':' in res:
-                                res = res.split(':')[1]
-                            print(res)
+                            res = title.text.split('-')[0]
+                            wikipedia.set_lang('He')
+                            wiki_summary = wikipedia.summary(res.text)
+                            print(wiki_summary)
                             break
                 except:
                     continue
-                print res.url
-                print
+                print res
         except SearchError, e:
             print "Search failed: %s" % e
 

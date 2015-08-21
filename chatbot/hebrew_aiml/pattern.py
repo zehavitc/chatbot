@@ -44,7 +44,7 @@ class pattern(object):
                     return True
             except Exception as e:
                 print(e)
-                return False
+        return False
 
 
 

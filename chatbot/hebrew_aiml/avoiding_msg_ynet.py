@@ -21,14 +21,13 @@ class avoiding_msg_ynet(answer_template):
         :return:
         returns the first template if is_random is false, otherwise returns random template
         """
-        msg = params[0]
+        msg = 'ynet.co.il:'+params[0]
         try:
             b = Browser()
             gs = GoogleSearch(msg)
             gs.results_per_page = 50
             results = gs.get_results()
             for res in results:
-                # print res.title.replace('ynet','')
                 try:
                     if (res.url is not None):
                         page = b.get_page(res.url)
@@ -42,16 +41,15 @@ class avoiding_msg_ynet(answer_template):
                             break
                 except:
                     continue
-                print res.url
-                print
+            return "?"
         except SearchError, e:
-            print "Search failed: %s" % e
+            return "?"
 
 
 
 
-a = avoiding_msg_ynet(None,None)
+#a = avoiding_msg_ynet(None,None)
 # a.get(["ynet.co.il:האם טביב ימכור את הקבוצה?"])
 # res = a.get(["ynet.co.il:האם ביבי ימכור את המדינה?"])
 #a.get(["ynet.co.il:מה יהיה עם הגז?"])
-a.get(["seret.co.il:המרגלת"])
+#a.get(["seret.co.il:המרגלת"])

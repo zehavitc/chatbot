@@ -15,7 +15,7 @@ class politics_topic(topic):
     def __init__(self):
         super(politics_topic, self).__init__(classifier.politics_topic)
         super(politics_topic, self).init_from_xml(classifier.politics_topic + ".xml")
-        self.avoiding_msg = avoiding_msg_ynet()
+        self.avoiding_msg = avoiding_msg_ynet(None,None)
 
     def get_avoiding_message(self, msg):
         self.avoiding_msg.get([msg])
