@@ -21,6 +21,6 @@ class blather_topic(topic):
             path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "Templates", "avoiding_templates")
             f = codecs.open(path, 'r', encoding='utf8')
             templates = f.readlines()
-            return avoiding_msg_wiki(True, templates).get([msg, get_category])
+            return avoiding_msg_wiki(templates).get([msg, get_category])
         except Exception as inst:
             print(inst)

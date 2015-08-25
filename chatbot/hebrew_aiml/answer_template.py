@@ -2,14 +2,12 @@ import exceptions
 import random
 
 class answer_template(object):
-    def __init__(self, is_random, li):
+    def __init__(self, li = None):
         """
         Initiate the answer_template object
-        :param is_random: indicate if the chosen template is random or the first template in the list
         :param li: list of templates for response
         :return:None
         """
-        self.is_random = is_random
         self.li = li
 
 
@@ -20,7 +18,5 @@ class answer_template(object):
         :return:
         returns the first template if is_random is false, otherwise returns random template
         """
-        if self.is_random:
-            return random.choice(self.li)
-        return self.li[0]
+        return random.choice(self.li)
 

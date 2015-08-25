@@ -31,4 +31,4 @@ class topic(object):
         for pattern_xml in patterns:
             self.message_handlers.append(
                 message_handler(self, pattern(pattern_xml[0], False)
-                                , answer_template(pattern_xml[1], pattern_xml[2])))
+                                , answer_template(pattern_xml[1])))

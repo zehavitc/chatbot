@@ -14,6 +14,15 @@ from xgoogle.browser import *
 
 # from pygoogle import google
 class avoiding_msg_ynet(answer_template):
+
+    def find_between(self, s, first, last ):
+        try:
+            start = s.index( first ) + len( first )
+            end = s.index( last, start )
+            return s[start:end]
+        except ValueError:
+            return ""
+
     def get(self, params=None):
         """
         gets the answer from the answer template
@@ -21,10 +30,10 @@ class avoiding_msg_ynet(answer_template):
         :return:
         returns the first template if is_random is false, otherwise returns random template
         """
-        msg = 'ynet.co.il:'+params[0]
+        msg = ('ynet.co.il:'+params[0]).encode('utf-8')
         try:
             b = Browser()
-            gs = GoogleSearch(msg)
+            gs = GoogleSearch(msg,lang='he',tld="co.il")
             gs.results_per_page = 50
             results = gs.get_results()
             for res in results:
@@ -34,10 +43,12 @@ class avoiding_msg_ynet(answer_template):
                         soup = BeautifulSoup(page)
                         title = soup.find("title")
                         if (title is not None):
-                            res = title.text.split('-')[0].replace('ynet','').replace('&quot;','')
+                            if ('&quot;' in title.text):
+                                return self.find_between(title.text,'&quot;','&quot;')
+                            res = title.text.split('-')[0].replace('ynet','').strip('"')
                             if ':' in res:
-                                res = res.split(':')[1]
-                            print(res)
+                                res = res.split(':')[1].strip('"')
+                            return res
                             break
                 except:
                     continue
@@ -47,9 +58,13 @@ class avoiding_msg_ynet(answer_template):
 
 
 
-
 #a = avoiding_msg_ynet(None,None)
 # a.get(["ynet.co.il:האם טביב ימכור את הקבוצה?"])
 # res = a.get(["ynet.co.il:האם ביבי ימכור את המדינה?"])
-#a.get(["ynet.co.il:מה יהיה עם הגז?"])
+#Sa.get(["ynet.co.il:מה יהיה עם הגז?"])
 #a.get(["seret.co.il:המרגלת"])
+
+#a = avoiding_msg_ynet()
+#a.test_browser()
+# a.get(["האם אלי טביב ימכור את הקבוצה?"])
+#a.get(["ynet.co.il:איזה גרוע ביבי הא?"])
