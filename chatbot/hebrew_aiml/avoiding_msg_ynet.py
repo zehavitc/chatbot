@@ -30,6 +30,7 @@ class avoiding_msg_ynet(answer_template):
         :return:
         returns the first template if is_random is false, otherwise returns random template
         """
+        ynet_sections = [u"חדשות",u"כלכלה",u"ספורט",u"תרבות",u"רכילות",u"דיגיטל",u"בריאות",u"יהדות",u"חופש",u"רכב",u"אוכל",u"צרכנות",u"יחסים",u"mynet",u"מדע",u"לימודים",u"קניות",u"קהילות"]
         msg = ('ynet.co.il:'+params[0]).encode('utf-8')
         try:
             b = Browser()
@@ -48,8 +49,9 @@ class avoiding_msg_ynet(answer_template):
                             res = title.text.split('-')[0].replace('ynet','').strip('"')
                             if ':' in res:
                                 res = res.split(':')[1].strip('"')
-                            return res
-                            break
+                            res = res.strip()
+                            if res == u'' or res in ynet_sections: continue
+                            else: return res
                 except:
                     continue
             return "?"
